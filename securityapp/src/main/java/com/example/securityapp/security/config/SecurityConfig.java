@@ -1,9 +1,11 @@
 package com.example.securityapp.security.config;
 
+import com.example.securityapp.security.provider.CustomAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -21,8 +23,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {// 인증시 구현한 UserDetailsService 객체를 등록하려면 해당 메서드 재정의
-        auth.userDetailsService(userDetailsService);//등록
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+        auth.authenticationProvider(authenticationProvider());//빈 객체를 만들어 전달
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() { // 직접 구현한 AuthenticationProvider
+        return new CustomAuthenticationProvider();
     }
 
     @Override
@@ -46,6 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
 
             .and()
-                .formLogin();
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .loginProcessingUrl("/login_proc")
+                .permitAll();
     }
 }
