@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MessageController {
 
-    @GetMapping(value = "/messages")
+    @GetMapping("/messages")
     public String mypage() throws Exception {
-        return "user/message";
+        return "user/messages";
     }
 
 
