@@ -1,43 +1,73 @@
 package com.example.securityapp.controller.user;
 
-import com.example.securityapp.domain.Account;
-import com.example.securityapp.domain.AccountDTO;
+
+import com.example.securityapp.domain.dto.AccountDto;
+import com.example.securityapp.repository.RoleRepository;
+import com.example.securityapp.service.UserService;
+import com.example.securityapp.domain.dto.AccountDto;
+import com.example.securityapp.domain.entity.Account;
+import com.example.securityapp.domain.entity.Role;
+import com.example.securityapp.repository.RoleRepository;
+import com.example.securityapp.security.service.AccountContext;
+import com.example.securityapp.security.token.AjaxAuthenticationToken;
 import com.example.securityapp.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;// 비밀번호 암호화
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-    @GetMapping(value = "/mypage")
-    public String myPage() throws Exception {
-        return "user/mypage";
-    }
+	@Autowired
+	private RoleRepository roleRepository;
 
-    @GetMapping(value = "/users")
-    public String createUser(){
-        return "user/login/register";
-    }
+	@GetMapping(value="/users")
+	public String createUser() throws Exception {
 
-    @PostMapping(value = "/users")
-    public String createUser(AccountDTO accountDTO){
+		return "user/login/register";
+	}
 
-        ModelMapper modelMapper = new ModelMapper();
-        Account account = modelMapper.map(accountDTO, Account.class); // 해당 객체를 Account 클래스로 맵핑 시킴
-        account.setPassword(passwordEncoder.encode(account.getPassword()));// 가입시 비밀번호 암호화
+	@PostMapping(value="/users")
+	public String createUser(AccountDto accountDto) throws Exception {
 
-        userService.createUser(account);//등록
+		ModelMapper modelMapper = new ModelMapper();
+		Account account = modelMapper.map(accountDto, Account.class);
+		account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
 
-        return "redirect:/";
-    }
+		userService.createUser(account);
+
+		return "redirect:/";
+	}
+
+	@GetMapping(value="/mypage")
+	public String myPage(@AuthenticationPrincipal Account account, Authentication authentication, Principal principal) throws Exception {
+		return "user/mypage";
+	}
+
+	@GetMapping("/order")
+	public String order(){
+		userService.order();
+		return "user/mypage";
+	}
+
 }

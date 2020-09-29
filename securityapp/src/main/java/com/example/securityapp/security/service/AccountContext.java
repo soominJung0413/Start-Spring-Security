@@ -1,23 +1,22 @@
 package com.example.securityapp.security.service;
 
-import com.example.securityapp.domain.Account;
+import com.example.securityapp.domain.entity.Account;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class AccountContext extends User {// UserDetail 를 구현한 User 클래스를 상속
+@Data
+public class AccountContext extends User {
+  private Account account;
 
-    private final Account account;
-
-    //생성자 재정의
-    public AccountContext(Account account, Collection<? extends GrantedAuthority> authorities) {
-        super(account.getUsername(),
-                account.getPassword(), authorities);
-        this.account = account; // 나중에 account 를 참조하기 위해 멤버변수로 선언
-    }
-
-    public Account getAccount() {
-        return account;
-    }
+  public AccountContext(Account account, List<GrantedAuthority> roles) {
+    super(account.getUsername(), account.getPassword(), roles);
+    this.account = account;
+  }
 }

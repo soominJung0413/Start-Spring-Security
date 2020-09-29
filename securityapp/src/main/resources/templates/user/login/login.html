@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/header::userHead"></head>
+<head th:replace="layout/header::userHead">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}">
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
 <body>
 <div th:replace="layout/top::header"></div>
 <div class="container text-center">
@@ -20,11 +23,12 @@
                 <div class="form-group">
                     <input type="password" name="password" class="form-control" placeholder="비밀번호" required="required" autofocus="autofocus">
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+                <button class="btn btn-lg btn-primary btn-block"  type="submit" >로그인</button>
             </form>
         </div>
     </div>
 </div>
+
 
 </body>
 </html>

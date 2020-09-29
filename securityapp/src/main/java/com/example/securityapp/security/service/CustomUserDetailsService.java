@@ -1,6 +1,6 @@
 package com.example.securityapp.security.service;
 
-import com.example.securityapp.domain.Account;
+import com.example.securityapp.domain.entity.Account;
 import com.example.securityapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
