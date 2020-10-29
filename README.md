@@ -1,7 +1,17 @@
 # Start-Spring-Security
 스프링 시큐리티를 학습합니다. Authentication 구현 관련 앱 입니다. 해당 프로젝트는 수강을 따라가며 작성한 앱입니다.
 
-중점은 AuthetnicationFlow 와 AuthorizationFlow 의 이해와 구현입니다. 해당 앱을 작성 후 스스로 적용한 사례는 Spring-React 에 있습니다.
+* 중점은 AuthetnicationFlow 와 AuthorizationFlow 의 이해와 구현입니다. 
+
+* 해당 앱을 작성 후 스스로 적용한 사례는 Spring-React 에 있습니다.
+
+* https://github.com/soominJung0413/spring-react
+
+* 현재 개인적으로 설계하는 데이터베이스 공부는 excelparse 프로젝트에 있습니다.
+
+* https://github.com/soominJung0413/excelparse
+
+
  
 * Model 2 방식을 따르며, Mvc 패턴을 따릅니다.
 
